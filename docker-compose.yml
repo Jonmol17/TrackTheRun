@@ -6,9 +6,9 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - SPRING_DATASOURCE_URL
-      - SPRING_DATASOURCE_USERNAME
-      - SPRING_DATASOURCE_PASSWORD
+      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL} 
+      - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME} 
+      - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
     depends_on:
       - db
     healthcheck:
@@ -24,7 +24,7 @@ services:
       - "3000:3000"
     environment:
       - NODE_ENV=production
-      - BACKEND_BASE_URL
+      - BACKEND_BASE_URL=${BACKEND_BASE_URL}
     depends_on:
       - backend
     healthcheck:
@@ -39,9 +39,9 @@ services:
     ports: 
      - "5432:5432"
     environment:
-      - POSTGRES_USER
-      - POSTGRES_PASSWORD
-      - POSTGRES_DB
+      - POSTGRES_USER=${POSTGRES_USER} 
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD} 
+      - POSTGRES_DB=${POSTGRES_DB}
     volumes:
       - tracktherun_db_data:/var/lib/postgresql/data
     healthcheck:
