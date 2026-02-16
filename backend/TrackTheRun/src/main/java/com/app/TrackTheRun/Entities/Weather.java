@@ -32,7 +32,7 @@ public class Weather {
     private Integer minCelsius;
 
     @Column(name = "avg_wind_speed")
-    private Integer avgWindKph;
+    private Integer maxWindKph;
 
     // exempel: Clear, Cloudy, Rainy....
     @Column(name = "condition")

@@ -44,9 +44,6 @@ public class Runs {
     @Column(name = "activity_area")
     private String activityArea;
 
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "weather_id")
     private Weather weather;
