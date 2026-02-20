@@ -4,7 +4,6 @@ import com.app.TrackTheRun.Dtos.CreateRunDTO;
 import com.app.TrackTheRun.Dtos.CreateRunResponseDTO;
 import com.app.TrackTheRun.Services.RunsService;
 import lombok.RequiredArgsConstructor;
-import org.jspecify.annotations.Nullable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +18,7 @@ public class RunsController {
 
     private final RunsService runsService;
 
-    @PostMapping("/runs")
+    @PostMapping("/create")
     public ResponseEntity<CreateRunResponseDTO> createRun(@Validated @RequestBody CreateRunDTO dto) {
 
         CreateRunResponseDTO res = runsService.createNewRun(dto);

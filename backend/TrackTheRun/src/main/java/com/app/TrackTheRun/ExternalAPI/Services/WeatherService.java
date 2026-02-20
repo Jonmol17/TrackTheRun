@@ -2,24 +2,24 @@ package com.app.TrackTheRun.ExternalAPI.Services;
 
 import com.app.TrackTheRun.ExternalAPI.Dtos.WeatherDTO;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClient;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class WeatherService {
 
-    RestClient restClient = RestClient.create();
+    private final RestTemplate restTemplate;
 
     @Value("${WEATHER_BASE_URL}")
     private String baseUrl;
@@ -27,45 +27,49 @@ public class WeatherService {
     @Value("${WEATHER_API_KEY}")
     private String apiKey;
 
-
-    public WeatherDTO getWeather(String lat, String lon, String date) {
+    public WeatherDTO getWeather(String lat, String lon, LocalDateTime date) {
 
         String geoLocation = lat + "," + lon;
 
-        // URL mot "History" data.
-        String apiUrl = baseUrl +
-                "history.json?key=" + apiKey +
-                "&q=" + geoLocation +
-                "&dt=" + date;
+        String dateApi = date.toLocalDate().toString();
+        int hourApi = date.getHour();
 
-        WeatherDTO res = restClient.get()
-                .uri(apiUrl)
-                .retrieve()
-                .body(WeatherDTO.class);
+        // "Historisk" data.
+        String apiUrl = baseUrl +
+                "/history.json?" +
+                "q=" + geoLocation +
+                "&dt=" + dateApi +
+                "&hour=" + hourApi +
+                "&key=" + apiKey
+                ;
+
+        WeatherDTO res;
+
+        // https://www.weatherapi.com/
+        try {
+            res = restTemplate.getForObject(apiUrl, WeatherDTO.class);
+
+            System.out.println("date: " + dateApi);
+            System.out.println("-------------------------------------");
+            System.out.println("hour: " + hourApi);
+            System.out.println("-------------------------------------");
+
+            System.out.println("Väder data från fetch: ");
+            System.out.println("-------------------------------------");
+            System.out.println(res);
+            System.out.println("-------------------------------------");
+
+        } catch (Exception e) {
+            throw new RuntimeException(e + "API Error: " + e.getMessage());
+        }
 
         if (res == null) {
             throw new ResponseStatusException(
                     HttpStatus.NO_CONTENT,
-                    "Gick inte att hämta väderdata, vänligen försök igen senare..."
+                    "Gick inte att hämta väderdata, testa igen senare..."
             );
         }
 
-        LocalDateTime dateTime = LocalDateTime.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-        String formattedDay = dateTime.toLocalDate().toString();     // yyyy-MM-dd
-        String formattedHour = String.valueOf(dateTime.getHour());   // H
-
-        WeatherDTO.ForecastDay day = res.getForecast().getForecastday().stream()
-                .filter(d -> d.getDate().equals(formattedDay))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("Ingen data för datumet"));
-
-        WeatherDTO.Hour hour = day.getHour().stream()
-                .filter(h -> h.getTime().contains(formattedHour + ":"))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("Ingen data för timmen"));
-
         return res;
     }
-
 }
-

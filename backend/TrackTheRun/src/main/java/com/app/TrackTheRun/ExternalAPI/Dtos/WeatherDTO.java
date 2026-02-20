@@ -28,10 +28,11 @@ public class WeatherDTO {
         private List<Hour> hour;
     }
 
-    @Data public static class Hour {
+    @Data
+    public static class Hour {
         private String time;
-        private Double temp_c;
-        private double wind_kph;
+        private String temp_c;
+        private Double wind_kph;
 
         private Condition condition;
     }

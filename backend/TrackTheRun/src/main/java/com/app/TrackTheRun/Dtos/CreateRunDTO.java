@@ -1,7 +1,6 @@
 package com.app.TrackTheRun.Dtos;
 
 import lombok.Data;
-import org.antlr.v4.runtime.misc.NotNull;
 
 import java.time.LocalDateTime;
 
@@ -12,7 +11,7 @@ public class CreateRunDTO {
     private long userId;
     private Float distanceKm;
     private Integer durationSeconds;
-    private LocalDateTime startTime;
+    private String startTime;
     private String runNote;
     private Integer effortLevel;
     private String activityArea;

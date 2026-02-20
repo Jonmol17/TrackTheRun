@@ -11,12 +11,11 @@ public class CreateRunResponseDTO {
     public String runNote;
     public Integer effortLevel;
     public String activityArea;
-    public LocalDateTime createdAt;
 
     // weather data
-    public Integer avgCelsius;
-    public Integer maxCelsius;
-    public Integer minCelsius;
-    public Integer avgWindKph;
+    public String temp_c;
+    public Double wind_kph;
     public String condition;
+    public String name;
+    public String country;
 }

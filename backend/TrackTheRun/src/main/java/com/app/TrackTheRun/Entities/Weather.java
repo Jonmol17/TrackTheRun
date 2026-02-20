@@ -20,11 +20,21 @@ public class Weather {
     private Long weatherId;
 
     // Medel
-    @Column(name = "avg_celsius")
-    private Integer avgCelsius;
+    /*@Column(name = "avg_celsius")
+    private Integer avgCelsius;*/
+
+    @Column(name = "temp_c")
+    private String temp_c;
+
+    @Column(name = "wind_kph")
+    private Double wind_kph;
+
+    // exempel: Clear, Cloudy, Rainy....
+    @Column(name = "condition")
+    private String condition;
 
     // Max
-    @Column(name = "max_celsius")
+    /*@Column(name = "max_celsius")
     private Integer maxCelsius;
 
     // Minimum
@@ -32,10 +42,7 @@ public class Weather {
     private Integer minCelsius;
 
     @Column(name = "avg_wind_speed")
-    private Integer maxWindKph;
+    private Integer maxWindKph;*/
 
-    // exempel: Clear, Cloudy, Rainy....
-    @Column(name = "condition")
-    private String condition;
 
 }
