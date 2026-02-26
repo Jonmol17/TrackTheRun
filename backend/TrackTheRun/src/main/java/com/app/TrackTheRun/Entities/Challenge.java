@@ -28,7 +28,7 @@ public class Challenge {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "distance_goal")
+    @Column(name = "distance_goal_km")
     private Integer distanceGoal;
 
     @Column(name = "start_date")
